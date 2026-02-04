@@ -1,0 +1,8 @@
+{
+  "name": "MCP Forge",
+  "description": "An AI integration platform that auto-generates MCP servers from REST APIs, allowing users to connect tools and chat with an intelligent agent.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
