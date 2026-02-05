@@ -1,13 +1,13 @@
 import React from 'react';
-import { Plus, LayoutGrid, Terminal, Clock, Folder, ChevronRight, Settings, Cpu, Layers, Globe, Database, Briefcase, Zap } from 'lucide-react';
-import { Project, Integration, Theme, UserProfile } from '../types';
+import { Plus, LayoutGrid, Terminal, Folder, ChevronRight, Settings, Zap, Cpu, Layers, Globe, Database, Briefcase } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Project, Integration, Theme, UserProfile } from '../../types';
 
 interface Props {
   user: UserProfile;
   projects: Project[];
   integrations: Integration[];
   theme: Theme;
-  onSelectProject: (id: string) => void;
   onAddProject: () => void;
   onAddIntegration: () => void;
   onOpenIntegration: (int: Integration) => void;
@@ -29,20 +29,20 @@ const Dashboard: React.FC<Props> = ({
   projects,
   integrations,
   theme,
-  onSelectProject,
   onAddProject,
   onAddIntegration,
   onOpenIntegration,
   onOpenProjectSettings
 }) => {
   const isDark = theme === 'dark';
+  const navigate = useNavigate();
 
   return (
     <div className={`flex-1 overflow-y-auto p-6 md:p-8 lg:p-12 relative transition-colors duration-500 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
       {/* Background Gradient Fade (Top to Bottom) */}
       <div className={`fixed inset-0 pointer-events-none transition-colors duration-1000 -z-10 ${isDark
-          ? 'bg-gradient-to-b from-blue-900/15 via-[#0a0a0a] to-[#0a0a0a]'
-          : 'bg-gradient-to-b from-blue-100/40 via-gray-50 to-gray-50'
+        ? 'bg-gradient-to-b from-blue-900/15 via-[#0a0a0a] to-[#0a0a0a]'
+        : 'bg-gradient-to-b from-blue-100/40 via-gray-50 to-gray-50'
         }`} />
 
       {/* Background Glows for Depth */}
@@ -158,10 +158,10 @@ const Dashboard: React.FC<Props> = ({
                   return (
                     <div
                       key={project.id}
-                      onClick={() => onSelectProject(project.id)}
+                      onClick={() => navigate(`/projects/${project.id}`)}
                       className={`relative p-5 border rounded-[1.75rem] cursor-pointer transition-all hover:translate-x-1 flex items-center gap-4 group overflow-hidden ${isDark
-                          ? 'bg-[#0f0f0f]/80 border-[#222] hover:border-blue-500/40 shadow-xl shadow-black/40'
-                          : 'bg-white border-gray-100 hover:border-blue-400 shadow-md'
+                        ? 'bg-[#0f0f0f]/80 border-[#222] hover:border-blue-500/40 shadow-xl shadow-black/40'
+                        : 'bg-white border-gray-100 hover:border-blue-400 shadow-md'
                         }`}
                     >
                       <div className={`p-3 rounded-xl transition-all group-hover:scale-110 ${isDark ? 'bg-[#1a1a1a] text-blue-400 shadow-inner shadow-black' : 'bg-blue-50 text-blue-600'}`}>

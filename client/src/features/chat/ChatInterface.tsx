@@ -1,8 +1,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, Loader2, Sparkles, Terminal, Menu, Settings, Folder, Cpu, Layers, Globe, Database, Briefcase } from 'lucide-react';
-import { chatWithAgent } from '../services/geminiService';
-import { Integration, Message, Theme, Project } from '../types';
+import { chatWithAgent } from '../../services/geminiService';
+import { Integration, Message, Theme, Project } from '../../types';
 
 interface Props {
   project: Project;
@@ -23,30 +23,30 @@ const ICONS: Record<string, any> = {
   briefcase: Briefcase,
 };
 
-const ChatInterface: React.FC<Props> = ({ 
-  project, 
-  allIntegrations, 
-  theme, 
-  onUpdateMessages, 
+const ChatInterface: React.FC<Props> = ({
+  project,
+  allIntegrations,
+  theme,
+  onUpdateMessages,
   onOpenSidebar,
   onOpenProjectSettings
 }) => {
   const isDark = theme === 'dark';
   const projectIntegrations = allIntegrations.filter(i => project.integrationIds.includes(i.id));
   const ProjectIcon = ICONS[project.icon || 'folder'] || Folder;
-  
+
   // Initialize messages from project or default welcome
   const [messages, setMessages] = useState<Message[]>(project.messages.length > 0 ? project.messages : [
     {
       id: '1',
       role: 'assistant',
-      content: projectIntegrations.length > 0 
+      content: projectIntegrations.length > 0
         ? `Hello! This project is connected to ${projectIntegrations.map(i => i.name).join(', ')}. How can I help you?`
         : "Welcome! This project doesn't have any integrations yet. Add some to get started.",
       timestamp: Date.now()
     }
   ]);
-  
+
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -62,7 +62,7 @@ const ChatInterface: React.FC<Props> = ({
       {
         id: '1',
         role: 'assistant',
-        content: projectIntegrations.length > 0 
+        content: projectIntegrations.length > 0
           ? `Hello! This project is connected to ${projectIntegrations.map(i => i.name).join(', ')}. How can I help you?`
           : "Welcome! This project doesn't have any integrations yet. Add some to get started.",
         timestamp: Date.now()
@@ -96,7 +96,7 @@ const ChatInterface: React.FC<Props> = ({
 
       // Only pass integrations relevant to THIS project
       const response = await chatWithAgent(input, projectIntegrations, history);
-      
+
       const assistantMsg: Message = {
         id: crypto.randomUUID(),
         role: 'assistant',
@@ -125,7 +125,7 @@ const ChatInterface: React.FC<Props> = ({
       {/* Header */}
       <header className={`flex items-center justify-between p-4 border-b z-20 transition-colors ${isDark ? 'bg-[#0a0a0a]/80 border-[#1a1a1a] text-white' : 'bg-white/80 border-gray-200 text-gray-900'} backdrop-blur-md sticky top-0`}>
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={onOpenSidebar}
             className={`md:hidden p-2 rounded-lg transition-colors ${isDark ? 'hover:bg-[#1a1a1a]' : 'hover:bg-gray-100'}`}
           >
@@ -140,7 +140,7 @@ const ChatInterface: React.FC<Props> = ({
                 <h1 className="font-bold tracking-tight text-sm md:text-base">
                   <span className="text-blue-500">Project:</span> {project.name}
                 </h1>
-                <button 
+                <button
                   onClick={onOpenProjectSettings}
                   className={`p-1 rounded hover:bg-gray-500/10 transition-colors ${isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'}`}
                 >
@@ -148,18 +148,17 @@ const ChatInterface: React.FC<Props> = ({
                 </button>
               </div>
               <div className="flex items-center gap-2 mt-0.5">
-                 {projectIntegrations.map(int => (
-                   <span key={int.id} className={`text-[9px] font-bold px-2 py-0.5 rounded uppercase flex items-center gap-1.5 transition-all ${
-                     isDark ? 'bg-[#1a1a1a] text-gray-400' : 'bg-gray-100 text-gray-500 border border-gray-200 shadow-sm'
-                   }`}>
-                     <div className="relative flex h-1.5 w-1.5 shrink-0">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
-                     </div>
-                     {int.name}
-                   </span>
-                 ))}
-                 {projectIntegrations.length === 0 && <span className="text-[9px] text-gray-500 italic">No integrations</span>}
+                {projectIntegrations.map(int => (
+                  <span key={int.id} className={`text-[9px] font-bold px-2 py-0.5 rounded uppercase flex items-center gap-1.5 transition-all ${isDark ? 'bg-[#1a1a1a] text-gray-400' : 'bg-gray-100 text-gray-500 border border-gray-200 shadow-sm'
+                    }`}>
+                    <div className="relative flex h-1.5 w-1.5 shrink-0">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                    </div>
+                    {int.name}
+                  </span>
+                ))}
+                {projectIntegrations.length === 0 && <span className="text-[9px] text-gray-500 italic">No integrations</span>}
               </div>
             </div>
           </div>
@@ -185,39 +184,36 @@ const ChatInterface: React.FC<Props> = ({
         <div className="max-w-3xl mx-auto space-y-8">
           {messages.map((m) => (
             <div key={m.id} className={`flex items-start gap-3 md:gap-4 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}>
-              <div className={`w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shrink-0 ${
-                m.role === 'user' 
-                  ? (isDark ? 'bg-blue-600 text-white' : 'bg-blue-600 text-white') 
+              <div className={`w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shrink-0 ${m.role === 'user'
+                  ? (isDark ? 'bg-blue-600 text-white' : 'bg-blue-600 text-white')
                   : (isDark ? 'bg-[#1a1a1a] border border-[#333] text-blue-400' : 'bg-white border border-gray-200 text-blue-600')
-              }`}>
+                }`}>
                 {m.role === 'user' ? <User className="h-4 w-4 md:h-5 md:w-5" /> : <Bot className="h-4 w-4 md:h-5 md:w-5" />}
               </div>
               <div className={`space-y-3 max-w-[85%] ${m.role === 'user' ? 'text-right' : ''}`}>
-                <div className={`px-4 md:px-5 py-3 md:py-3 rounded-2xl leading-relaxed text-sm md:text-[15px] border ${
-                  m.role === 'user' 
-                    ? (isDark ? 'bg-[#1a1a1a] text-gray-200 border-[#333]' : 'bg-white text-gray-800 border-gray-200 shadow-sm') 
+                <div className={`px-4 md:px-5 py-3 md:py-3 rounded-2xl leading-relaxed text-sm md:text-[15px] border ${m.role === 'user'
+                    ? (isDark ? 'bg-[#1a1a1a] text-gray-200 border-[#333]' : 'bg-white text-gray-800 border-gray-200 shadow-sm')
                     : (isDark ? 'bg-[#0f0f0f]/50 text-gray-300 border-[#1a1a1a]' : 'bg-white/50 text-gray-700 border-gray-200')
-                }`}>
+                  }`}>
                   {m.content}
                 </div>
-                
+
                 {m.toolCalls && m.toolCalls.length > 0 && (
                   <div className="space-y-2">
                     {m.toolCalls.map((tc, idx) => (
-                      <div key={idx} className={`border rounded-xl p-3 flex items-center gap-3 ${
-                        isDark ? 'bg-[#111] border-[#333]' : 'bg-white border-gray-200 shadow-sm'
-                      }`}>
+                      <div key={idx} className={`border rounded-xl p-3 flex items-center gap-3 ${isDark ? 'bg-[#111] border-[#333]' : 'bg-white border-gray-200 shadow-sm'
+                        }`}>
                         <div className={`p-1.5 rounded-md ${isDark ? 'bg-blue-500/10' : 'bg-blue-50'}`}>
                           <Terminal className={`h-4 w-4 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
                         </div>
                         <div className="flex-1 overflow-hidden text-left">
                           <p className={`text-[10px] md:text-xs font-mono truncate ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>MCP_CALL: {tc.name}</p>
                           <div className="mt-1 flex flex-wrap gap-1 md:gap-2">
-                             {Object.entries(tc.args).map(([key, val]) => (
-                               <span key={key} className={`text-[9px] md:text-[10px] px-1.5 py-0.5 rounded truncate ${isDark ? 'bg-[#222] text-gray-500' : 'bg-gray-100 text-gray-500'}`}>
-                                 {key}: {String(val)}
-                               </span>
-                             ))}
+                            {Object.entries(tc.args).map(([key, val]) => (
+                              <span key={key} className={`text-[9px] md:text-[10px] px-1.5 py-0.5 rounded truncate ${isDark ? 'bg-[#222] text-gray-500' : 'bg-gray-100 text-gray-500'}`}>
+                                {key}: {String(val)}
+                              </span>
+                            ))}
                           </div>
                         </div>
                         <span className="text-[9px] md:text-[10px] font-bold text-green-500 uppercase shrink-0">Success</span>
@@ -267,11 +263,10 @@ const ChatInterface: React.FC<Props> = ({
               <button
                 onClick={handleSend}
                 disabled={!input.trim() || isTyping || projectIntegrations.length === 0}
-                className={`p-2.5 md:p-3 mb-1 rounded-xl transition-all shadow-lg active:scale-95 shrink-0 ${
-                  isDark 
-                    ? 'bg-blue-600 text-white hover:bg-blue-500 disabled:bg-gray-800 disabled:text-gray-600' 
+                className={`p-2.5 md:p-3 mb-1 rounded-xl transition-all shadow-lg active:scale-95 shrink-0 ${isDark
+                    ? 'bg-blue-600 text-white hover:bg-blue-500 disabled:bg-gray-800 disabled:text-gray-600'
                     : 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-100 disabled:text-gray-400'
-                }`}
+                  }`}
               >
                 {isTyping ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
               </button>

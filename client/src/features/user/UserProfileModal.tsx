@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { X, User, Mail, Shield, CreditCard, Save, LogOut, Camera, Check, Zap, Rocket, Building2, Key, Bell, Globe, Search, ChevronRight } from 'lucide-react';
-import { UserProfile, Theme } from '../types';
+import { UserProfile, Theme } from '../../types';
 
 interface Props {
   profile: UserProfile;
@@ -63,20 +63,18 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
     setFormData({ ...formData, plan: planId });
   };
 
-  const filteredTabs = searchQuery 
+  const filteredTabs = searchQuery
     ? tabs.filter(t => t.label.toLowerCase().includes(searchQuery.toLowerCase()) || t.desc.toLowerCase().includes(searchQuery.toLowerCase()))
     : tabs;
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 md:p-6 bg-black/90 backdrop-blur-xl transition-all duration-500 ease-out">
-      <div className={`w-full max-w-6xl rounded-none md:rounded-[3rem] shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden border transition-all flex flex-col md:flex-row h-full md:h-[90vh] max-h-[900px] ${
-        isDark ? 'bg-[#080808] border-[#1a1a1a]' : 'bg-white border-gray-100'
-      }`}>
-        
-        {/* Navigation Sidebar */}
-        <div className={`w-full md:w-80 border-r transition-all flex flex-col p-6 md:p-8 gap-8 ${
-          isDark ? 'bg-[#050505] border-[#1a1a1a]' : 'bg-gray-50/50 border-gray-100'
+      <div className={`w-full max-w-6xl rounded-none md:rounded-[3rem] shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden border transition-all flex flex-col md:flex-row h-full md:h-[90vh] max-h-[900px] ${isDark ? 'bg-[#080808] border-[#1a1a1a]' : 'bg-white border-gray-100'
         }`}>
+
+        {/* Navigation Sidebar */}
+        <div className={`w-full md:w-80 border-r transition-all flex flex-col p-6 md:p-8 gap-8 ${isDark ? 'bg-[#050505] border-[#1a1a1a]' : 'bg-gray-50/50 border-gray-100'
+          }`}>
           <div className="space-y-1">
             <h1 className={`text-2xl font-black tracking-tighter ${isDark ? 'text-white' : 'text-gray-900'}`}>Settings</h1>
             <p className={`text-xs font-bold uppercase tracking-widest ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>Workspace Preferences</p>
@@ -87,22 +85,20 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`group relative flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 ${
-                  activeTab === tab.id
+                className={`group relative flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 ${activeTab === tab.id
                     ? (isDark ? 'bg-blue-600/10 text-white' : 'bg-blue-50 text-blue-600 font-bold')
                     : (isDark ? 'text-gray-500 hover:bg-[#111] hover:text-gray-300' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900')
-                }`}
+                  }`}
               >
                 {/* Active Indicator */}
                 {activeTab === tab.id && (
                   <div className="absolute left-0 w-1 h-6 bg-blue-500 rounded-full" />
                 )}
-                
-                <div className={`p-2 rounded-xl shrink-0 transition-all duration-300 ${
-                  activeTab === tab.id 
-                    ? (isDark ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'bg-blue-600 text-white shadow-md shadow-blue-500/10') 
+
+                <div className={`p-2 rounded-xl shrink-0 transition-all duration-300 ${activeTab === tab.id
+                    ? (isDark ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'bg-blue-600 text-white shadow-md shadow-blue-500/10')
                     : (isDark ? 'bg-[#1a1a1a] group-hover:bg-[#222]' : 'bg-white shadow-sm group-hover:bg-gray-50')
-                }`}>
+                  }`}>
                   <tab.icon className="h-4 w-4" />
                 </div>
                 <div className="text-left hidden md:block">
@@ -116,9 +112,8 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
           </div>
 
           <div className="pt-6 border-t border-[#1a1a1a]/50 space-y-4">
-            <button className={`w-full flex items-center justify-center gap-3 px-5 py-4 rounded-2xl text-xs font-black uppercase tracking-widest text-red-500 transition-all ${
-              isDark ? 'hover:bg-red-500/10' : 'hover:bg-red-50'
-            }`}>
+            <button className={`w-full flex items-center justify-center gap-3 px-5 py-4 rounded-2xl text-xs font-black uppercase tracking-widest text-red-500 transition-all ${isDark ? 'hover:bg-red-500/10' : 'hover:bg-red-50'
+              }`}>
               <LogOut className="h-4 w-4 shrink-0" />
               <span className="hidden md:inline">Sign Out</span>
             </button>
@@ -131,14 +126,13 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
           <div className={`px-8 md:px-12 py-8 border-b flex flex-col md:flex-row md:items-center justify-between gap-6 sticky top-0 z-20 ${isDark ? 'border-[#1a1a1a] bg-[#080808]/80' : 'border-gray-50 bg-white/80'} backdrop-blur-xl`}>
             <div className="flex-1 max-w-md relative group">
               <Search className={`absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${isDark ? 'text-gray-600 group-focus-within:text-blue-500' : 'text-gray-400 group-focus-within:text-blue-500'}`} />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="Search settings..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-12 pr-4 py-3 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all ${
-                  isDark ? 'bg-[#0f0f0f] border-[#1a1a1a] text-white focus:border-blue-500/50' : 'bg-gray-50 border-gray-100 focus:bg-white focus:border-blue-500'
-                }`}
+                className={`w-full pl-12 pr-4 py-3 rounded-2xl text-sm font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all ${isDark ? 'bg-[#0f0f0f] border-[#1a1a1a] text-white focus:border-blue-500/50' : 'bg-gray-50 border-gray-100 focus:bg-white focus:border-blue-500'
+                  }`}
               />
             </div>
             <button onClick={onClose} className={`p-3 rounded-2xl transition-all active:scale-90 ${isDark ? 'hover:bg-[#1a1a1a] text-gray-500 hover:text-white' : 'hover:bg-gray-100 text-gray-400 hover:text-gray-900'}`}>
@@ -149,7 +143,7 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
           {/* Scrollable Content */}
           <div className="flex-1 overflow-y-auto px-8 md:px-12 py-8">
             <div className="max-w-5xl mx-auto h-full">
-              
+
               {activeTab === 'profile' && (
                 <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
                   <div className="flex flex-col md:flex-row items-center gap-10">
@@ -167,10 +161,9 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
                         <p className={`text-base font-medium ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{formData.email}</p>
                       </div>
                       <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                        <span className={`px-4 py-1.5 rounded-2xl text-[10px] font-black tracking-widest uppercase border ${
-                          formData.plan === 'Pro' ? 'bg-blue-600 text-white border-blue-400' : 
-                          'bg-gray-100 text-gray-600 border-gray-200'
-                        }`}>
+                        <span className={`px-4 py-1.5 rounded-2xl text-[10px] font-black tracking-widest uppercase border ${formData.plan === 'Pro' ? 'bg-blue-600 text-white border-blue-400' :
+                            'bg-gray-100 text-gray-600 border-gray-200'
+                          }`}>
                           {formData.plan} Plan
                         </span>
                       </div>
@@ -184,9 +177,8 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
                         type="text"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className={`w-full border rounded-[1.5rem] px-6 py-4 text-base font-black focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all ${
-                          isDark ? 'bg-[#0f0f0f] border-[#1a1a1a] text-white focus:border-blue-500/50 shadow-inner shadow-black' : 'bg-gray-50 border-gray-100 text-gray-900 shadow-sm focus:border-blue-500'
-                        }`}
+                        className={`w-full border rounded-[1.5rem] px-6 py-4 text-base font-black focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all ${isDark ? 'bg-[#0f0f0f] border-[#1a1a1a] text-white focus:border-blue-500/50 shadow-inner shadow-black' : 'bg-gray-50 border-gray-100 text-gray-900 shadow-sm focus:border-blue-500'
+                          }`}
                       />
                     </div>
                     <div className="space-y-2">
@@ -195,9 +187,8 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className={`w-full border rounded-[1.5rem] px-6 py-4 text-base font-black focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all ${
-                          isDark ? 'bg-[#0f0f0f] border-[#1a1a1a] text-white focus:border-blue-500/50 shadow-inner shadow-black' : 'bg-gray-50 border-gray-100 text-gray-900 shadow-sm focus:border-blue-500'
-                        }`}
+                        className={`w-full border rounded-[1.5rem] px-6 py-4 text-base font-black focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all ${isDark ? 'bg-[#0f0f0f] border-[#1a1a1a] text-white focus:border-blue-500/50 shadow-inner shadow-black' : 'bg-gray-50 border-gray-100 text-gray-900 shadow-sm focus:border-blue-500'
+                          }`}
                       />
                     </div>
                   </div>
@@ -215,17 +206,16 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
                       Active: {formData.plan}
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 flex-1">
                     {PLANS.map((plan) => (
-                      <div 
+                      <div
                         key={plan.id}
                         onClick={() => handlePlanSelect(plan.id as any)}
-                        className={`relative p-6 border-2 rounded-[2.5rem] cursor-pointer transition-all duration-300 flex flex-col group h-full ${
-                          formData.plan === plan.id
+                        className={`relative p-6 border-2 rounded-[2.5rem] cursor-pointer transition-all duration-300 flex flex-col group h-full ${formData.plan === plan.id
                             ? (isDark ? 'bg-blue-600/10 border-blue-500 shadow-[0_0_40px_rgba(37,99,235,0.1)]' : 'bg-blue-50 border-blue-500 shadow-xl shadow-blue-500/10')
                             : (isDark ? 'bg-[#0a0a0a] border-[#1a1a1a] hover:border-gray-800' : 'bg-white border-gray-100 hover:border-gray-200 hover:shadow-lg')
-                        }`}
+                          }`}
                       >
                         {plan.recommended && (
                           <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-blue-600 rounded-full text-[8px] font-black uppercase tracking-[0.2em] text-white z-10 shadow-lg">
@@ -233,11 +223,10 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
                           </div>
                         )}
 
-                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 mb-4 transition-all duration-500 group-hover:scale-110 ${
-                          formData.plan === plan.id
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 mb-4 transition-all duration-500 group-hover:scale-110 ${formData.plan === plan.id
                             ? 'bg-blue-600 text-white shadow-lg'
                             : (isDark ? 'bg-[#1a1a1a] text-gray-500' : 'bg-gray-50 text-gray-400')
-                        }`}>
+                          }`}>
                           <plan.icon className="h-7 w-7" />
                         </div>
 
@@ -263,11 +252,10 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
                           ))}
                         </div>
 
-                        <button className={`mt-8 w-full py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.15em] transition-all active:scale-95 ${
-                          formData.plan === plan.id
+                        <button className={`mt-8 w-full py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.15em] transition-all active:scale-95 ${formData.plan === plan.id
                             ? (isDark ? 'bg-white text-black hover:bg-gray-200' : 'bg-gray-900 text-white hover:bg-black')
                             : (isDark ? 'bg-[#1a1a1a] text-gray-400 group-hover:bg-blue-600 group-hover:text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-blue-600 group-hover:text-white')
-                        }`}>
+                          }`}>
                           {formData.plan === plan.id ? 'Current Plan' : 'Select Plan'}
                         </button>
                       </div>
@@ -295,9 +283,8 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
 
                   <div className="space-y-4">
                     <label className={`block text-[10px] font-black uppercase tracking-[0.2em] ml-2 ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>Access Tokens</label>
-                    <div className={`p-6 border rounded-[2rem] font-mono text-sm flex items-center justify-between gap-4 transition-all ${
-                      isDark ? 'bg-[#050505] border-[#1a1a1a] text-gray-500' : 'bg-gray-50 border-gray-100 text-gray-500'
-                    }`}>
+                    <div className={`p-6 border rounded-[2rem] font-mono text-sm flex items-center justify-between gap-4 transition-all ${isDark ? 'bg-[#050505] border-[#1a1a1a] text-gray-500' : 'bg-gray-50 border-gray-100 text-gray-500'
+                      }`}>
                       <div className="flex items-center gap-3 min-w-0">
                         <Key className="h-4 w-4 shrink-0 text-blue-500" />
                         <span className="truncate">forge_live_••••••••••••••••••••••••••••</span>
@@ -310,7 +297,7 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
                   </div>
                 </div>
               )}
-              
+
               {activeTab === 'notifications' && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                   <div className="space-y-4">
@@ -345,17 +332,17 @@ const UserProfileModal: React.FC<Props> = ({ profile, theme, onClose, onUpdate }
 
           {/* Persistent Save Footer */}
           <div className={`px-12 py-8 border-t flex flex-col sm:flex-row justify-between items-center gap-8 sticky bottom-0 z-20 ${isDark ? 'border-[#1a1a1a] bg-[#080808]' : 'border-gray-50 bg-white/95'} backdrop-blur-xl`}>
-             <div className="hidden md:flex flex-col">
-                <p className={`text-[10px] font-black uppercase tracking-[0.3em] ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>
-                  System Health
+            <div className="hidden md:flex flex-col">
+              <p className={`text-[10px] font-black uppercase tracking-[0.3em] ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>
+                System Health
+              </p>
+              <div className="flex items-center gap-2 mt-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                <p className={`text-xs font-bold ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                  Operational • US-West
                 </p>
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                  <p className={`text-xs font-bold ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Operational • US-West
-                  </p>
-                </div>
-             </div>
+              </div>
+            </div>
             <div className="flex gap-4 w-full sm:w-auto">
               <button
                 onClick={onClose}
