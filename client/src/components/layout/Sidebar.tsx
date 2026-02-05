@@ -1,18 +1,16 @@
 
 import React from 'react';
 import { Plus, Settings, Zap, Home, Folder, X, ChevronLeft, ChevronRight, Sun, Moon, Terminal, Cpu, Layers, Globe, Database, Briefcase } from 'lucide-react';
-import { Project, Theme, UserProfile } from '../types';
+import { NavLink } from 'react-router-dom';
+import { Project, Theme, UserProfile } from '../../types';
 
 interface Props {
   projects: Project[];
-  activeProjectId: string | null;
   theme: Theme;
   userProfile: UserProfile;
   isOpen: boolean;
   isCollapsed: boolean;
   onAddProject: () => void;
-  onSelectProject: (id: string) => void;
-  onGoHome: () => void;
   onToggleTheme: () => void;
   onToggleCollapse: () => void;
   onOpenProfile: () => void;
@@ -29,20 +27,17 @@ const ICONS: Record<string, any> = {
   briefcase: Briefcase,
 };
 
-const Sidebar: React.FC<Props> = ({ 
-  projects, 
-  activeProjectId,
-  theme, 
+const Sidebar: React.FC<Props> = ({
+  projects,
+  theme,
   userProfile,
-  isOpen, 
-  isCollapsed, 
-  onAddProject, 
-  onSelectProject, 
-  onGoHome,
-  onToggleTheme, 
-  onToggleCollapse, 
+  isOpen,
+  isCollapsed,
+  onAddProject,
+  onToggleTheme,
+  onToggleCollapse,
   onOpenProfile,
-  onClose 
+  onClose
 }) => {
   const isDark = theme === 'dark';
 
@@ -56,9 +51,9 @@ const Sidebar: React.FC<Props> = ({
       {/* Header */}
       <div className={`p-4 md:p-6 border-b flex items-center justify-between overflow-hidden ${isDark ? 'border-[#1a1a1a]' : 'border-gray-200'}`}>
         <div className="flex items-center gap-3">
-          <div onClick={onGoHome} className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-900/40 shrink-0 cursor-pointer">
+          <NavLink to="/" className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-900/40 shrink-0 cursor-pointer">
             <Zap className="h-5 w-5 text-white" />
-          </div>
+          </NavLink>
           {!isCollapsed && (
             <span className={`text-xl font-bold tracking-tight whitespace-nowrap transition-opacity duration-300 ${isDark ? 'text-white' : 'text-gray-900'}`}>
               Forge<span className="text-blue-500">MCP</span>
@@ -67,20 +62,20 @@ const Sidebar: React.FC<Props> = ({
         </div>
         <div className="flex items-center gap-1">
           {!isCollapsed && (
-            <button 
+            <button
               onClick={onToggleTheme}
               className={`p-2 rounded-lg transition-colors hidden md:block ${isDark ? 'hover:bg-[#1a1a1a] text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}
             >
               {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
           )}
-          <button 
+          <button
             onClick={onToggleCollapse}
             className={`p-2 rounded-lg transition-colors hidden md:block ${isDark ? 'hover:bg-[#1a1a1a] text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}
           >
             {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
           </button>
-          <button 
+          <button
             onClick={onClose}
             className={`md:hidden p-2 rounded-lg transition-colors ${isDark ? 'hover:bg-[#1a1a1a] text-gray-400' : 'hover:bg-gray-100 text-gray-500'}`}
           >
@@ -93,18 +88,18 @@ const Sidebar: React.FC<Props> = ({
       <div className="flex-1 overflow-y-auto p-4 space-y-8">
         {/* Navigation */}
         <div className="space-y-1">
-          <button
-            onClick={onGoHome}
+          <NavLink
+            to="/"
+            end
             title={isCollapsed ? "Dashboard" : undefined}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
-              !activeProjectId 
+            className={({ isActive }) => `w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${isActive
                 ? (isDark ? 'bg-blue-600/10 text-blue-400' : 'bg-blue-50 text-blue-600 font-bold')
                 : (isDark ? 'text-gray-400 hover:bg-[#1a1a1a]' : 'text-gray-500 hover:bg-gray-50')
-            } ${isCollapsed ? 'justify-center' : ''}`}
+              } ${isCollapsed ? 'justify-center' : ''}`}
           >
             <Home className="h-4 w-4 shrink-0" />
             {!isCollapsed && <span className="text-sm">Dashboard</span>}
-          </button>
+          </NavLink>
         </div>
 
         {/* Projects Section */}
@@ -121,33 +116,31 @@ const Sidebar: React.FC<Props> = ({
               <span className={`text-[10px] font-bold uppercase tracking-[0.2em] opacity-40 ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>PRJ</span>
             )}
           </div>
-          
+
           <div className="space-y-1">
             {projects.map((project) => {
               const ProjectIcon = ICONS[project.icon || 'folder'] || Folder;
               return (
-                <button 
+                <NavLink
                   key={project.id}
-                  onClick={() => onSelectProject(project.id)}
+                  to={`/projects/${project.id}`}
                   title={isCollapsed ? project.name : undefined}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
-                    activeProjectId === project.id
+                  className={({ isActive }) => `w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${isActive
                       ? (isDark ? 'bg-blue-600/10 text-blue-400' : 'bg-blue-50 text-blue-600 font-bold')
                       : (isDark ? 'text-gray-400 hover:bg-[#1a1a1a]' : 'text-gray-500 hover:bg-gray-50')
-                  } ${isCollapsed ? 'justify-center' : ''}`}
+                    } ${isCollapsed ? 'justify-center' : ''}`}
                 >
-                  <ProjectIcon className={`h-4 w-4 shrink-0 ${activeProjectId === project.id ? 'text-blue-500' : ''}`} />
+                  <ProjectIcon className={`h-4 w-4 shrink-0`} />
                   {!isCollapsed && <span className="text-sm truncate">{project.name}</span>}
-                </button>
+                </NavLink>
               );
             })}
-            
-            <button 
+
+            <button
               onClick={onAddProject}
               title={isCollapsed ? "New Project" : undefined}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all border border-dashed ${
-                isDark ? 'border-[#333] text-gray-600 hover:text-blue-400 hover:border-blue-500/50 hover:bg-blue-500/5' : 'border-gray-200 text-gray-400 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50'
-              } ${isCollapsed ? 'justify-center' : ''}`}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all border border-dashed ${isDark ? 'border-[#333] text-gray-600 hover:text-blue-400 hover:border-blue-500/50 hover:bg-blue-500/5' : 'border-gray-200 text-gray-400 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50'
+                } ${isCollapsed ? 'justify-center' : ''}`}
             >
               <Plus className="h-4 w-4 shrink-0" />
               {!isCollapsed && <span className="text-sm font-medium">New Project</span>}
@@ -158,7 +151,7 @@ const Sidebar: React.FC<Props> = ({
 
       {/* Footer / Profile */}
       <div className={`p-4 border-t transition-colors ${isDark ? 'border-[#1a1a1a] bg-[#080808]' : 'border-gray-200 bg-gray-50'}`}>
-        <div 
+        <div
           onClick={onOpenProfile}
           className={`flex items-center rounded-xl transition-colors cursor-pointer group ${isCollapsed ? 'justify-center p-1' : 'gap-3 p-2'} ${isDark ? 'hover:bg-[#1a1a1a]' : 'hover:bg-white hover:shadow-sm'}`}
         >

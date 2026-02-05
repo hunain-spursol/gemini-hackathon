@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Search, Globe, ChevronRight, CheckCircle2, Shield, ArrowLeft, Loader2, X } from 'lucide-react';
 
 
-import { searchForDocs, analyzeCapabilities, analyzeAuthRequirements } from '../services/geminiService';
-import { Integration, Endpoint, Theme, Capability, AuthConfig } from '../types';
+import { searchForDocs, analyzeCapabilities, analyzeAuthRequirements } from '../../services/geminiService';
+import { Integration, Endpoint, Theme, Capability, AuthConfig } from '../../types';
 
 interface Props {
   onClose: () => void;
